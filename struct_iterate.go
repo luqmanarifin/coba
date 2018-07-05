@@ -23,8 +23,8 @@ type DummyUser struct {
 	ID        int
 	Number    int
 	Egg       *int
-	Name      string
-	Alias     *string
+	Name      string  `gorm:"default:'Name'"`
+	Alias     *string `gorm:"default:'Alias WOWOW'"`
 	IsMan     bool
 	Handsome  *bool
 	UpdatedAt mysql.NullTime
@@ -45,17 +45,25 @@ func StructIterate() {
 	db.First(&cliff, 2)
 
 	full := &DummyUser{}
-	db.First(&full, 3)
+	db.First(&full, 4)
+
+	user := &DummyUser{}
+
+	db.Create(user)
 
 	fmt.Printf("%v\n\n", luqman)
 	fmt.Printf("%v\n\n", cliff)
 	fmt.Printf("%v\n\n", full)
-	fmt.Printf("luqman alias %s egg %d\n", *luqman.Alias, *luqman.Egg)
-	fmt.Printf("luqman alias %s alias %s\n", full.Name, *full.Alias)
+	// fmt.Printf("luqman alias %s egg %d\n", *luqman.Alias, *luqman.Egg)
+	// fmt.Printf("luqman alias %s alias %s\n", full.Name, *full.Alias)
 
 	v := reflect.ValueOf(*full)
 
 	values := make([]interface{}, v.NumField())
+
+	p := &mysql.NullTime{}
+	fmt.Printf("%s %v\n", reflect.TypeOf(p), p)
+	fmt.Println(p == nil)
 
 	fmt.Println("done")
 	for i := 0; i < v.NumField(); i++ {
@@ -63,20 +71,28 @@ func StructIterate() {
 		values[i] = v.Field(i).Interface()
 
 		tipe := reflect.TypeOf(values[i])
-		if strings.HasPrefix(tipe.String(), "*") {
+		fmt.Printf("%d %s\n", i, reflect.TypeOf(values[i]))
+		if strings.HasPrefix(tipe.String(), "*") && !v.Field(i).IsNil() {
 			values[i] = v.Field(i).Elem().Interface()
 		}
-		fmt.Printf("%d type %s %s: %v\n", i+1, name, tipe, values[i])
+		fmt.Printf("ini %s\n", reflect.TypeOf(values[i]))
+		fmt.Printf("%d type %s %s: %v\n", i, name, tipe, values[i])
 		if strings.HasSuffix(tipe.String(), "mysql.NullTime") {
-			vs := reflect.ValueOf(values[i])
-			vals := make([]interface{}, vs.NumField())
+			fmt.Printf("time %d %v\n", i, values[i])
+			fmt.Printf("%s %v\n", reflect.TypeOf(values[i]), values[i])
+			fmt.Println(values[i] == nil)
+			if values[i] != (*mysql.NullTime)(nil) {
+				fmt.Printf("time %d %v\n", i, values[i])
+				vs := reflect.ValueOf(values[i])
+				vals := make([]interface{}, vs.NumField())
 
-			for j := 0; j < vs.NumField(); j++ {
-				name_d := vs.Type().Field(j).Name
-				vals[j] = vs.Field(j).Interface()
-				tipe_d := reflect.TypeOf(vals[j])
+				for j := 0; j < vs.NumField(); j++ {
+					name_d := vs.Type().Field(j).Name
+					vals[j] = vs.Field(j).Interface()
+					tipe_d := reflect.TypeOf(vals[j])
 
-				fmt.Printf(" %d type %s %s: %v\n", j+1, name_d, tipe_d, vals[j])
+					fmt.Printf(" %d type %s %s: %v\n", j+1, name_d, tipe_d, vals[j])
+				}
 			}
 		}
 	}

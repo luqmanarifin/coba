@@ -1,9 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/bukalapak/packen/response"
+	"github.com/go-sql-driver/mysql"
 )
 
 // handle response both success or failed
@@ -41,18 +44,32 @@ func WriteSuccess(w http.ResponseWriter, data interface{}, status int) {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	m := make(map[string]interface{})
-	m["id"] = "1001012"
-	m["a"] = "b"
-	c := make(map[string]interface{})
-	c["cliff"] = 123
-	c["luqman"] = 1
-	m["map"] = c
+	// m := make(map[string]interface{})
+	// m["id"] = "1001012"
+	// m["a"] = "b"
+	// c := make(map[string]interface{})
+	// c["cliff"] = 123
+	// c["luqman"] = 1
+	// m["map"] = c
 
-	WriteSuccess(w, m, 200)
+	a := 4
+	alias := "lala"
+	boo := false
+	u := &DummyUser{
+		ID:        3,
+		Egg:       &a,
+		Name:      "luqman",
+		Alias:     &alias,
+		IsMan:     true,
+		Handsome:  &boo,
+		UpdatedAt: mysql.NullTime{Time: time.Now()},
+	}
+
+	WriteSuccess(w, u, 200)
 }
 
 func MapInPackenResponse() {
 	http.HandleFunc("/", Handler)
 	http.ListenAndServe(":1234", nil)
+	fmt.Println("done")
 }
