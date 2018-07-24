@@ -21,7 +21,7 @@ type MySQLOption struct {
 
 type DummyUser struct {
 	ID        int
-	Number    int
+	Number    *int
 	Egg       *int
 	Name      string  `gorm:"default:'Name'"`
 	Alias     *string `gorm:"default:'Alias WOWOW'"`
@@ -45,7 +45,7 @@ func StructIterate() {
 	db.First(&cliff, 2)
 
 	full := &DummyUser{}
-	db.First(&full, 4)
+	db.First(&full, 3)
 
 	user := &DummyUser{}
 
@@ -78,9 +78,10 @@ func StructIterate() {
 		fmt.Printf("ini %s\n", reflect.TypeOf(values[i]))
 		fmt.Printf("%d type %s %s: %v\n", i, name, tipe, values[i])
 		if strings.HasSuffix(tipe.String(), "mysql.NullTime") {
+
 			fmt.Printf("time %d %v\n", i, values[i])
 			fmt.Printf("%s %v\n", reflect.TypeOf(values[i]), values[i])
-			fmt.Println(values[i] == nil)
+			fmt.Println(values[i] == (*mysql.NullTime)(nil))
 			if values[i] != (*mysql.NullTime)(nil) {
 				fmt.Printf("time %d %v\n", i, values[i])
 				vs := reflect.ValueOf(values[i])

@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/bukalapak/packen/response"
-	"github.com/go-sql-driver/mysql"
 )
 
 // handle response both success or failed
@@ -52,18 +50,19 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// c["luqman"] = 1
 	// m["map"] = c
 
-	a := 4
-	alias := "lala"
-	boo := false
-	u := &DummyUser{
-		ID:        3,
-		Egg:       &a,
-		Name:      "luqman",
-		Alias:     &alias,
-		IsMan:     true,
-		Handsome:  &boo,
-		UpdatedAt: mysql.NullTime{Time: time.Now()},
-	}
+	// a := 4
+	// alias := "lala"
+	// boo := false
+	db, _ := getDbConnection()
+	u := &DummyUser{}
+	db.First(&u, 3)
+	// u := &DummyUser{
+	// 	ID:        3,
+	// 	Name:      "luqman",
+	// 	IsMan:     true,
+	// 	Handsome:  &boo,
+	// 	UpdatedAt: mysql.NullTime{Time: time.Now()},
+	// }
 
 	WriteSuccess(w, u, 200)
 }

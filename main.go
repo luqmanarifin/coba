@@ -1,6 +1,7 @@
 package main
 
 func main() {
-	StructIterate()
-	MapInPackenResponse()
+	// StructIterate()
+	// MapInPackenResponse()
+	Pointer()
 }
