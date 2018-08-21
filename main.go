@@ -3,6 +3,7 @@ package main
 func main() {
 	// StructIterate()
 	// MapInPackenResponse()
-	Pointer()
-	Yaml()
+	// Pointer()
+	// Yaml()
+	GormAssociation()
 }

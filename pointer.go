@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-type User struct {
+type Ntuser struct {
 	ID   int
 	Name *string
 }
@@ -22,27 +22,27 @@ func (b *Football) Bounce() {
 	fmt.Println("Football bouncing..")
 }
 
-func f(user *User) {
-	*user.Name = "Alice"
+func f(Ntuser *Ntuser) {
+	*Ntuser.Name = "Alice"
 }
 
 func Pointer() {
 	name := "Bob"
-	user := &User{
+	ntuser := &Ntuser{
 		ID:   4,
 		Name: &name,
 	}
-	fmt.Printf("Name %s\n", *user.Name)
-	f(user)
-	fmt.Printf("Name %s\n", *user.Name)
+	fmt.Printf("Name %s\n", *ntuser.Name)
+	f(ntuser)
+	fmt.Printf("Name %s\n", *ntuser.Name)
 
 	f := Football{}
 	f.Bounce()
 
 	fmt.Printf("nado kosong\n")
-	user = &User{}
-	// fmt.Printf("name %s\n", *user.Name)
+	ntuser = &Ntuser{}
+	// fmt.Printf("name %s\n", *Ntuser.Name)
 	name = "luqman"
-	user.Name = &name
-	fmt.Printf("name %s\n", *user.Name)
+	ntuser.Name = &name
+	fmt.Printf("name %s\n", *ntuser.Name)
 }

@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 )
 
 // Option holds all necessary options for database.
@@ -29,11 +28,6 @@ type DummyUser struct {
 	Handsome  *bool
 	UpdatedAt mysql.NullTime
 	CreatedAt *mysql.NullTime
-}
-
-func getDbConnection() (db *gorm.DB, err error) {
-	d, err := gorm.Open("mysql", "luqman:luqman@tcp(127.0.0.1:3306)/test?charset=utf8")
-	return d, err
 }
 
 func StructIterate() {
