@@ -5,5 +5,6 @@ func main() {
 	// MapInPackenResponse()
 	// Pointer()
 	// Yaml()
-	GormAssociation()
+	// GormAssociation()
+	Ddos()
 }
